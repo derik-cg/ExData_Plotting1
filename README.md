@@ -1,3 +1,4 @@
+(Scripts and figures can be found under the "project" folder)
 ## Introduction
 
 This assignment uses data from
