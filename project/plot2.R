@@ -7,12 +7,21 @@ library(data.table)
 library(lubridate)
 library(dplyr)
 #1 load the data
+#create a working directory 
+if(!file.exists("~/R/coursera/power"))
+{
+  #create the directory
+  dir.create("~/R/coursera/power")
+}
 #change to working directory
 setwd("~/R/coursera/power")
-#download the zipped file
-download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",destfile="power.zip")
-#unzip the file
-unzip("power.zip")
+# if file is not there, download the zipped file
+if(!file.exists("power.zip"))
+{
+  download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",destfile="power.zip")
+  #unzip the file
+  unzip("power.zip")
+}
 #read the file
 power<-fread("household_power_consumption.txt",na.strings = "?")
 #convert dates and times
@@ -39,11 +48,14 @@ rm(dates)
 ### figure 2
 ###############
 #this figure is a line plot of global active power
+#to make the label, locate the row index where Thu, Fri and Sat occur
 #number of rows in day "2007-02-01"
 nrows1<-max(date1)-min(date1)
 #total number of rows in both days
 nrows2<-length(dates2days)
+
 png(filename = "plot2.png")
 plot(power2days$Global_active_power,type="l",xaxt="n",ylab="Global Active Power (kilowats)",xlab="")
+#the labels occur at the begining and end of day 1 as well as end of day 2
 axis(1,at=c(1,nrows1,nrows2),labels=c("Thu","Fri","Sat"))
 dev.off()

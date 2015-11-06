@@ -7,12 +7,21 @@ library(data.table)
 library(lubridate)
 library(dplyr)
 #1 load the data
+#create a working directory 
+if(!file.exists("~/R/coursera/power"))
+{
+  #create the directory
+  dir.create("~/R/coursera/power")
+}
 #change to working directory
 setwd("~/R/coursera/power")
-#download the zipped file
-download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",destfile="power.zip")
-#unzip the file
-unzip("power.zip")
+# if file is not there, download the zipped file
+if(!file.exists("power.zip"))
+{
+  download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip",destfile="power.zip")
+  #unzip the file
+  unzip("power.zip")
+}
 #read the file
 power<-fread("household_power_consumption.txt",na.strings = "?")
 #convert dates and times
